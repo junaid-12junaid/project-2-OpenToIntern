@@ -29,7 +29,7 @@ const createIntern = async function (req, res) {
 
         if (!stringChecking(collegeName)) return res.status(400).send({ status: false, message: "collegeName must be present and have non empty string" })
         const college = await collegeModel.findOne({ fullName: collegeName })
-        if (!college) return res.status(404).send({ status: false, message: "collegeName not found" })
+        if (!college) return res.status(404).send({ status: false, message: "college Name not found" })
         entries.collegeId = college._id
 
         const createIntern = await internModel.create(entries)
