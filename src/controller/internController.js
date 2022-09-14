@@ -45,8 +45,6 @@ const createIntern=async function(req,res){
         }
 
        
-        
-
         if(collegeName){
         if(!stringChecking(collegeName)) return res.status(400).send({status: false, message: "collegeName must be present and have non empty string"})
 
@@ -73,11 +71,15 @@ const getIntern = async function(req,res){
     if(!checkCollege) return res.status(404).send({status: false, message: "collegeName not found"})
     
     const college = await collegeModel.findOne({name: collegeName}).select({_id:0, createdAt:0,updatedAt:0, isDeleted:0, __v:0})
+
+    const {name,fullName,logoLink}=college
+
     const intern = await internModel.find({collegeId: checkCollege._id}).select({collegeId:0, createdAt:0,updatedAt:0, isDeleted:0, __v:0})
     if(intern.length === 0){
         return res.status(404).send({status:false, message: "no intern are there"})
     }
-    return res.status(200).send({data: {college , interns: intern}})
+    const data1={name,fullName,logoLink,intern}
+    return res.status(200).send({data:data1})
 }
 
 
