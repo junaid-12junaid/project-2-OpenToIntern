@@ -4,8 +4,7 @@ const ObjectId = mongoose.Schema.Types.ObjectId
 const internSchema = new mongoose.Schema({
   name:{
     type: String,
-    required: true,
-    trim: true
+    required: true
   },
   email:{
     type: String,
