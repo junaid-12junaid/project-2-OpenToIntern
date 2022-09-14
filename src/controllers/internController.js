@@ -12,16 +12,12 @@ const createIntern = async function (req, res) {
         let { name, mobile, email, collegeName } = data
         const entries = {}
 
+        if (!stringChecking(name)) return res.status(400).send({ status: false, message: "name must be present and have non empty string" })
         if (name) {
-            if (!stringChecking(name)) return res.status(400).send({ status: false, message: "name must be present and have non empty string" })
             entries.name = name
         }
 
-        if (mobile) {
-            if (!isvalidMobile.test(mobile)) return res.status(400).send({ status: false, message: "please enter non empty valid Mobile Number" })
-            entries.mobile = mobile
-        }
-
+        if(!stringChecking(email)) return res.status(400).send({ status: false, message: "email must be present and have non empty string" })
         if (email) {
             if (!isvalidEmail.test(email)) return res.status(400).send({ status: false, message: "please enter non empty valid email" })
             const duplicateEmail = await internModel.findOne({ email: email })
@@ -29,11 +25,15 @@ const createIntern = async function (req, res) {
             entries.email = email
         }
 
+        if(!stringChecking(mobile)) return res.status(400).send({ status: false, message: "mobile must be present and have non empty string" })
+        if (mobile) {
+            if (!isvalidMobile.test(mobile)) return res.status(400).send({ status: false, message: "please enter non empty valid Mobile Number" })
+            entries.mobile = mobile
+        }
 
+        if (!stringChecking(collegeName)) return res.status(400).send({ status: false, message: "collegeName must be present and have non empty string" })
         if (collegeName) {
-            if (!stringChecking(collegeName)) return res.status(400).send({ status: false, message: "collegeName must be present and have non empty string" })
-
-            const college = await collegeModel.findOne({ fullName: collegeName })
+        const college = await collegeModel.findOne({ fullName: collegeName })
             if (!college) return res.status(404).send({ status: false, message: "collegeName not found" })
 
             entries.collegeId = college._id
@@ -55,7 +55,7 @@ const getIntern = async function (req, res) {
         const collegeName = req.query.collegeName
         const checkCollege = await collegeModel.findOne({ name: collegeName }).select({ createdAt: 0, updatedAt: 0, isDeleted: 0, __v: 0 })
         if (!checkCollege) return res.status(404).send({ status: false, message: "collegeName not found" })
-
+ 
         const { name, fullName, logoLink } = checkCollege
 
         const intern = await internModel.find({ collegeId: checkCollege._id }).select({ collegeId: 0, createdAt: 0, updatedAt: 0, isDeleted: 0, __v: 0 })
