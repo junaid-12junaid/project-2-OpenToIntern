@@ -1,20 +1,6 @@
 const internModel = require('../models/internModel')
 const collegeModel = require('../models/collegeModel')
-const { Error } = require('mongoose')
-
-const isvalidEmail = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
-const isvalidMobile = new RegExp(/^(\+?\d{1,4}[\s-])?(?!0+\s+,?$)\d{10}\s*,?$/)
-
-const stringChecking = function (data) {
-    if (typeof data !== 'string') {
-        return false;
-    } else if (typeof data === 'string' && data.trim().length === 0) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
+const {stringChecking, isvalidEmail, isvalidMobile} = require("../validator/validator")
 
 
 const createIntern = async function (req, res) {

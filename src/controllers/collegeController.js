@@ -1,17 +1,6 @@
 const mongoose = require('mongoose')
 const collegeModel = require('../models/collegeModel')
-
-const isValidAbbrv = new RegExp(/\b(?:[A-Za-z]){2,}/)
-const isValidName = new RegExp(/^[A-Za-z][A-Za-z\'\-]+([\ A-Za-z][A-Za-z\'\-]+)*/)
-const stringChecking = function (data) {
-    if (typeof data !== 'string') {
-        return false;
-    } else if (typeof data === 'string' && data.trim().length === 0) {
-        return false;
-    } else {
-        return true;
-    }
-}
+const {stringChecking, isValidAbbrv, isValidName} = require("../validator/validator")
 
 
 const createCollege = async function (req, res) {
