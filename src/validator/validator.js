@@ -15,14 +15,16 @@ const stringChecking = function (data) {
 
 const isValidAbbrv = /^[.a-zA-Z\s,-]+$/
 const isValidName = new RegExp(/^[A-Za-z][A-Za-z\'\-]+([\ A-Za-z][A-Za-z\'\-]+)*/)
+const isValidImage = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/
 
 
 
 // intern
 
 
-const isvalidEmail = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
-const isvalidMobile = new RegExp(/^(\+?\d{1,4}[\s-])?(?!0+\s+,?$)\d{10}\s*,?$/)
+const isvalidEmail = /^\s*[a-zA-Z0-9]+([\.\-\_\+][a-zA-Z0-9]+)*@[a-zA-Z]+([\.\-\_][a-zA-Z]+)*(\.[a-zA-Z]{2,3})+\s*$/
+
+const isvalidMobile = /^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$/
 
 
-module.exports = {stringChecking, isValidAbbrv, isValidName, isvalidEmail,isvalidMobile}
+module.exports = {stringChecking, isValidAbbrv, isValidName,isValidImage, isvalidEmail,isvalidMobile}
