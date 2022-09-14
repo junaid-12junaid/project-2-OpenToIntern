@@ -8,6 +8,8 @@ const internController = require('../controller/internController')
 
 router.post('/functionup/colleges', collegeController.createCollege)
 
+router.post('/functionup/interns', internController.createIntern)
+
 
 
 module.exports = router
