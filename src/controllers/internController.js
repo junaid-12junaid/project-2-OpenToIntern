@@ -23,7 +23,7 @@ const createIntern = async function (req, res) {
 
         if (!isvalidMobile.test(mobile)) return res.status(400).send({ status: false, message: "please enter non empty valid Mobile Number" })
         const duplicateMobile = await internModel.findOne({ mobile: mobile })
-        if (duplicateMobile) return res.status(400).send({ status: false, message: "mobile Id already register ,use another mobile number" })
+        if (duplicateMobile) return res.status(400).send({ status: false, message: "mobile already register ,use another mobile number" })
         entries.mobile = mobile
 
 
@@ -44,18 +44,22 @@ const createIntern = async function (req, res) {
 
 const getIntern = async function (req, res) {
     try {
-        const collegeName = req.query.collegeName
-        const checkCollege = await collegeModel.findOne({ name: collegeName }).select({ name: 1, fullName: 1, logoLink: 1 })
-        if (!checkCollege) return res.status(404).send({ status: false, message: "collegeName not found" })
+        const filter = req.query
+        if(filter.collegeName && Object.keys(filter).length === 1){
+            const checkCollege = await collegeModel.findOne({ name: filter.collegeName })
+            if (!checkCollege) return res.status(404).send({ status: false, message: "collegeName not found" })
+    
+            const { name, fullName, logoLink } = checkCollege
+    
+            const interns = await internModel.find({ collegeId: checkCollege._id }).select({ name: 1, email: 1, mobile: 1 })
 
-        const { name, fullName, logoLink } = checkCollege
-
-        const interns = await internModel.find({ collegeId: checkCollege._id }).select({ name: 1, email: 1, mobile: 1 })
-        if (interns.length === 0) {
-            return res.status(404).send({ status: false, message: "no intern are there" })
+            if (interns.length === 0)  return res.status(404).send({ status: false, message: "no intern are there" })
+            
+            const data = { name, fullName, logoLink, interns }
+            return res.status(200).send({ status: true, count: interns.length, data: data })
         }
-        const data = { name, fullName, logoLink, interns }
-        return res.status(200).send({ status: true, count: interns.length, data: data })
+        return res.status(400).send({status: false, message: "Please provide only collegeName filter"})
+       
     } catch (error) {
         return res.status(500).send({ status: false, message: error.message })
     }
