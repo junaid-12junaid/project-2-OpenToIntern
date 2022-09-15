@@ -58,7 +58,7 @@ const getIntern = async function (req, res) {
             const data = { name, fullName, logoLink, interns }
             return res.status(200).send({ status: true, count: interns.length, data: data })
         }
-        return res.status(400).send({status: false, message: "Please provide only collegeName filter"})
+        return res.status(400).send({status: false, message: "Please provide filter and it should be collegeName only"})
        
     } catch (error) {
         return res.status(500).send({ status: false, message: error.message })
