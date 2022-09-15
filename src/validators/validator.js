@@ -12,7 +12,7 @@ const stringChecking = function (data) {
 //============== Validation in College Controller==============//
 
 const isValidAbbrv = /^[.a-zA-Z\s,-]+$/
-const isValidName = new RegExp(/^[A-Za-z][A-Za-z\'\-]+([\ A-Za-z][A-Za-z\'\-]+)*/)
+const isValidName = /^[A-Za-z][A-Za-z\'\-]+([\ A-Za-z][A-Za-z\'\-]+)*/
 const isValidLogoLink = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/
 
 
