@@ -46,12 +46,12 @@ const getIntern = async function (req, res) {
     try {
         const filter = req.query
         if(filter.collegeName && Object.keys(filter).length === 1){
-            const checkCollege = await collegeModel.findOne({ name: filter.collegeName })
+            const checkCollege = await collegeModel.findOne({ name: filter.collegeName,isDeleted:false })
             if (!checkCollege) return res.status(404).send({ status: false, message: "collegeName not found" })
     
             const { name, fullName, logoLink } = checkCollege
     
-            const interns = await internModel.find({ collegeId: checkCollege._id }).select({ name: 1, email: 1, mobile: 1 })
+            const interns = await internModel.find({ collegeId: checkCollege._id,isDeleted:false }).select({ name: 1, email: 1, mobile: 1 })
 
             if (interns.length === 0)  return res.status(404).send({ status: false, message: "no intern are there" })
             
@@ -60,9 +60,9 @@ const getIntern = async function (req, res) {
         }
         return res.status(400).send({status: false, message: "Please provide filter and it should be collegeName only"})
        
-    } catch (error) {
+    } catch (error) { 
         return res.status(500).send({ status: false, message: error.message })
     }
 }
-
+ 
 module.exports = { createIntern, getIntern }
